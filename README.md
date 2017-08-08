@@ -3,14 +3,30 @@
 
 ## Building
 
+(_Grab a coffee, this will take some time..._)
 ```bash
-docker build -t my-mesos ./base/
+docker build -t mesos-base ./mesos-base/
 ```
 
 ## Running
 
+```bash
+docker-compose up
+```
+
+Visit the Mesos web page:
+* [localhost:5050/](http://localhost:5050/)
+
+Test framework:
+```bash
+$ docker exec mesos-agent1 /bin/bash
+# ${MESOS_HOME}/src/examples/python/test-framework mesos-master:5050
+```
 
 ## Links
 
-* [How To Configure a Production-Ready Mesosphere Cluster ](https://www.digitalocean.com/community/tutorials/how-to-configure-a-production-ready-mesosphere-cluster-on-ubuntu-14-04)
+* [Apache Mesos - Getting Started](http://mesos.apache.org/documentation/latest/getting-started/)
+* [Docker Hub - mesosphere/mesos](https://hub.docker.com/r/mesosphere/mesos/)
+* [mesosphere/docker-containers](https://github.com/mesosphere/docker-containers/tree/master/mesos)
+* [ZooKeeper Getting Started Guide](http://zookeeper.apache.org/doc/trunk/zookeeperStarted.html)
 
