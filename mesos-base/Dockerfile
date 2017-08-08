@@ -26,7 +26,7 @@ USER mesos
 WORKDIR /usr/local/mesos/build
 RUN ../configure -q
 RUN make -j $(nproc) V=0
-RUN make check
+RUN make check -j $(nproc) V=0
 RUN make install
 
 WORKDIR /var/lib/mesos
