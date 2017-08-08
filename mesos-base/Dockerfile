@@ -36,3 +36,5 @@ EXPOSE 5050
 ENV PATH="${PATH}:${MESOS_HOME}/build/bin"
 RUN mkdir -p /run/systemd/system
 
+RUN pip install -e "${MESOS_HOME}/build/src/python"
+
