@@ -6,15 +6,12 @@
 (_Grab a coffee, this will take some time..._)
 ```bash
 docker build -t mesos-base ./mesos-base/
-docker build -t mesos-agent ./mesos-agent/
 ```
 
 ## Running
 
 ```bash
-docker-compose up -d mesos-master
-docker run -it --rm --name=mesos-agent12 --net=host --privileged -d mesos-agent
-docker exec -it mesos-agent12 mesos-agent.sh --master=127.0.0.1:5050 --work_dir=/var/lib/mesos --no-systemd_enable_support 
+docker-compose up -d
 ```
 
 Visit the Mesos web page:
