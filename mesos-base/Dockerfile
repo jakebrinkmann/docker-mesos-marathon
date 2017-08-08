@@ -34,4 +34,5 @@ WORKDIR /var/lib/mesos
 EXPOSE 5050
 
 ENV PATH="${PATH}:${MESOS_HOME}/build/bin"
+RUN mkdir -p /run/systemd/system
 

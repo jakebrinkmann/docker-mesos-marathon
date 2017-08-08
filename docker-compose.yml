@@ -6,20 +6,21 @@ services:
     container_name: mesos-master
     hostname: mesos-master
     ports:
-      - "127.0.0.1:5050:5050"
-    entrypoint: ["mesos-master.sh", "--ip=127.0.0.1", "--work_dir=/var/lib/mesos"]
+      - "5050:5050"
+    entrypoint: ["mesos-master.sh", "--ip=0.0.0.0", "--work_dir=/var/lib/mesos"]
   mesos-agent1:
     image: mesos-base
     container_name: mesos-agent1
     hostname: mesos-agent1
+    privileged: true
     entrypoint: ["mesos-agent.sh", "--master=mesos-master:5050", "--work_dir=/var/lib/mesos"]
     depends_on:
       - mesos-master
-  zoo1:
-    image: zookeeper
-    restart: always
-    ports:
-      - 2181:2181
-    environment:
-      ZOO_MY_ID: 1
+#   zoo1:
+#     image: zookeeper
+#     restart: always
+#     ports:
+#       - 2181:2181
+#     environment:
+#       ZOO_MY_ID: 1
 
