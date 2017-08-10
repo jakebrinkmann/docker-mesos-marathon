@@ -21,9 +21,7 @@ Visit the Mesos web page:
 
 Test framework:
 ```bash
-$ docker exec -it mesos-agent1 /bin/bash
-# cd ${MESOS_HOME}
-# ./src/examples/python/test_framework.py 127.0.0.1:5050
+$ docker exec -it mesos-agent1 ./src/examples/python/test-framework 127.0.0.1:5050
 ```
 
 ## Links
