@@ -1,0 +1,65 @@
+version: '2'
+services:
+  zooleader:
+    build: zookeeper/
+    ports:
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+  base:
+    build: mesos-base/
+  master:
+    build: mesos-master/
+    hostname: mesos-master
+    network_mode: host
+    depends_on:
+      - zooleader
+    ports:
+      - "5050:5050"
+    environment:
+      MESOS_HOSTNAME: ${HOST_IP}
+      MESOS_IP: ${HOST_IP}
+      MESOS_ZK: "zk://${HOST_IP}:2181/mesos"
+      MESOS_PORT: 5050
+      MESOS_LOG_DIR: /var/log/mesos
+      MESOS_QUORUM: 1
+      MESOS_REGISTRY: in_memory
+      MESOS_WORK_DIR: /var/lib/mesos
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - "5000:5000"
+  proxy:
+    build: nginx/
+    ports:
+      - "8089:8089"
+    depends_on:
+      - master
+    environment:
+      HOST_IP: ${HOST_IP}
+  marathon:
+    build: mesos-marathon/
+    hostname: mesos-marathon
+    depends_on: 
+      - master
+      - zooleader
+    ports:
+      - "8080:8080"
+    environment:
+      MARATHON_MASTER: "zk://${HOST_IP}:2181/mesos"
+      MARATHON_ZK: "zk://${HOST_IP}:2181/marathon"
+  slave:
+    build: mesos-master/
+    hostname: mesos-slave
+    privileged: true
+    entrypoint: mesos-slave
+    depends_on:
+      - master
+      - marathon
+    environment:
+      MESOS_MASTER: "zk://${HOST_IP}:2181/mesos"
+      MESOS_LOG_DIR: /var/log/mesos
+      MESOS_WORK_DIR: /var/lib/mesos
+      MESOS_LOGGING_LEVEL: INFO
+
